@@ -1,0 +1,69 @@
+import bcrypt from "bcryptjs";
+import { User } from "../models/User";
+import { RegisterInput, LoginInput } from "../validations/user.schema";
+import { generateToken } from "../utils/jwt";
+
+export class AuthService {
+  static async register(data: RegisterInput) {
+    const existingUser = await User.findOne({ where: { email: data.email } });
+    if (existingUser) {
+      throw new Error("Email is already registered");
+    }
+
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(data.password, salt);
+
+    const user = await User.create({
+      ...data,
+      password: hashedPassword,
+    });
+
+    const token = generateToken({ id: user.id, role: user.role });
+
+    return {
+      user: this.excludePassword(user.toJSON()),
+      token,
+    };
+  }
+
+  static async login(data: LoginInput) {
+    const user = await User.findOne({
+      where: { email: data.email },
+      attributes: ["id", "email", "password", "role"],
+    });
+
+    if (!user) {
+      throw new Error("Invalid email or password");
+    }
+
+    const isMatch = await bcrypt.compare(data.password, user.password);
+    if (!isMatch) {
+      throw new Error("Invalid email or password");
+    }
+
+    await User.update({ lastLogin: new Date() }, { where: { id: user.id } });
+
+    const token = generateToken({ id: user.id, role: user.role });
+
+    return {
+      status: "success",
+      token,
+      user: {
+        email: user.email,
+      },
+    };
+  }
+
+  static async getMe(id: string) {
+    const user = await User.findByPk(id);
+    if (!user) {
+      throw new Error("User not found");
+    }
+    return this.excludePassword(user.toJSON());
+  }
+
+  static excludePassword(user: any) {
+    const { password, ...userWithoutPassword } = user;
+    return userWithoutPassword;
+  }
+}
