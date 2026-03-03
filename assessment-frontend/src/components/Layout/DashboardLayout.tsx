@@ -1,9 +1,10 @@
 import { Outlet, useLocation } from "react-router-dom";
 import { Sidebar } from "./Sidebar";
 import { Topbar } from "./Topbar";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 
 export function DashboardLayout() {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const location = useLocation();
 
   const { title, subtitle } = useMemo(() => {
@@ -50,15 +51,32 @@ export function DashboardLayout() {
 
   return (
     <div className="flex h-screen bg-[var(--bg-main)] overflow-hidden font-sans">
-      <div className="hidden md:flex md:flex-shrink-0 shadow-xl z-20">
-        <Sidebar />
+      {/* Mobile Sidebar Overlay */}
+      {sidebarOpen && (
+        <div
+          className="fixed inset-0 bg-black/50 z-20 md:hidden"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
+
+      {/* Sidebar - Desktop and Mobile sliding */}
+      <div
+        className={`fixed inset-y-0 left-0 transform ${
+          sidebarOpen ? "translate-x-0" : "-translate-x-full"
+        } md:relative md:translate-x-0 transition duration-200 ease-in-out z-30 flex-shrink-0 shadow-xl`}
+      >
+        <Sidebar onClose={() => setSidebarOpen(false)} />
       </div>
 
       <div className="flex flex-col flex-1 w-0 overflow-hidden">
-        <Topbar title={title} subtitle={subtitle} />
+        <Topbar
+          title={title}
+          subtitle={subtitle}
+          onOpenSidebar={() => setSidebarOpen(true)}
+        />
 
-        <main className="flex-1 relative z-0 overflow-y-auto outline-none custom-scrollbar">
-          <div className="py-8 px-8">
+        <main className="flex-1 relative z-0 overflow-y-auto outline-none custom-scrollbar pb-10">
+          <div className="md:py-8 md:px-8 py-4 px-4">
             <Outlet />
           </div>
         </main>

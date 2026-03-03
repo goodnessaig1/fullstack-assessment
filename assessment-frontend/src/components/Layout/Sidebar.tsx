@@ -13,7 +13,11 @@ import {
 } from "lucide-react";
 import { useAuth } from "../../contexts/AuthContext";
 
-export function Sidebar() {
+interface SidebarProps {
+  onClose?: () => void;
+}
+
+export function Sidebar({ onClose }: SidebarProps) {
   const location = useLocation();
   const { user } = useAuth();
 
@@ -93,7 +97,26 @@ export function Sidebar() {
 
   return (
     <div className="w-64 bg-[var(--bg-sidebar)] text-white flex flex-col h-full font-sans tracking-wide">
-      <div className="pt-8 pb-5 px-6">
+      <div className="pt-8 pb-5 px-6 relative">
+        <button
+          onClick={onClose}
+          className="md:hidden absolute top-4 right-4 p-2 text-white/70 hover:text-white bg-white/5 hover:bg-white/10 rounded-lg transition-colors"
+        >
+          <span className="sr-only">Close sidebar</span>
+          <svg
+            className="w-6 h-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
+        </button>
         <h1 className="text-2xl font-serif font-extrabold tracking-tight text-white mb-2 shadow-sm">
           School Core
         </h1>
@@ -119,6 +142,7 @@ export function Sidebar() {
                   <Link
                     key={item.path}
                     to={item.path}
+                    onClick={onClose}
                     className={clsx(
                       "flex items-center justify-between px-3 py-2.5 text-[13.5px] rounded-lg transition-all relative group",
                       isActive
@@ -161,7 +185,7 @@ export function Sidebar() {
       </nav>
 
       <div className="px-4 py-4 w-full">
-        <Link to="/dashboard/profile" className="block">
+        <Link to="/dashboard/profile" onClick={onClose} className="block">
           <div className="bg-white/10 rounded-xl p-[10px] flex items-center gap-3 hover:bg-white/15 cursor-pointer transition-colors border border-white/5 shadow-inner">
             {user?.profilePicture ? (
               <img
