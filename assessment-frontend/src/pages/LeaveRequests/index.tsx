@@ -20,6 +20,10 @@ export function LeaveRequests() {
   // Modal State for Creating
   const [showCreateModal, setShowCreateModal] = useState(false);
 
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const limit = 10;
+
   const fetchLeaves = async () => {
     try {
       setLoading(true);
@@ -28,8 +32,13 @@ export function LeaveRequests() {
           ? "/leave/all-requests"
           : "/leave/my-requests";
 
-      const response = await api.get(endpoint);
+      const response = await api.get(endpoint, {
+        params: { page, limit },
+      });
       setLeaves(response.data.data);
+      if (response.data.meta) {
+        setTotalPages(response.data.meta.totalPages || 1);
+      }
     } catch (error) {
       console.error("Error fetching leaves:", error);
     } finally {
@@ -39,7 +48,7 @@ export function LeaveRequests() {
 
   useEffect(() => {
     fetchLeaves();
-  }, [user]);
+  }, [user, page]);
 
   const handleApprove = async (id: string) => {
     try {
@@ -135,6 +144,28 @@ export function LeaveRequests() {
           </div>
         )}
       </div>
+
+      {totalPages > 1 && (
+        <div className="flex justify-center items-center mt-8 gap-4">
+          <button
+            disabled={page === 1}
+            onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
+            className="px-4 py-2 border border-slate-200 rounded-lg text-sm font-medium text-slate-600 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-slate-50 transition-colors bg-white shadow-sm"
+          >
+            Previous
+          </button>
+          <span className="text-sm font-medium text-slate-600">
+            Page {page} of {totalPages}
+          </span>
+          <button
+            disabled={page === totalPages}
+            onClick={() => setPage((prev) => Math.min(prev + 1, totalPages))}
+            className="px-4 py-2 border border-slate-200 rounded-lg text-sm font-medium text-slate-600 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-slate-50 transition-colors bg-white shadow-sm"
+          >
+            Next
+          </button>
+        </div>
+      )}
 
       <DeclineLeaveModal
         isOpen={showDeclineModal}

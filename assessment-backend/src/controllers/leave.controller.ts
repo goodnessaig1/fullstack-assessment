@@ -6,8 +6,13 @@ export class LeaveController {
   static async getMyLeaves(req: Request, res: Response): Promise<void> {
     try {
       const userId = (req as any).user.id;
-      const leaves = await LeaveService.getUserRequests(userId);
-      res.status(200).json({ status: "success", data: leaves });
+      const page = parseInt(req.query.page as string) || 1;
+      const limit = parseInt(req.query.limit as string) || 10;
+
+      const result = await LeaveService.getUserRequests(userId, page, limit);
+      res
+        .status(200)
+        .json({ status: "success", data: result.data, meta: result.meta });
     } catch (error: any) {
       res.status(400).json({ error: error.message });
     }
@@ -15,8 +20,13 @@ export class LeaveController {
 
   static async getAllLeaves(req: Request, res: Response): Promise<void> {
     try {
-      const leaves = await LeaveService.getAllRequests();
-      res.status(200).json({ status: "success", data: leaves });
+      const page = parseInt(req.query.page as string) || 1;
+      const limit = parseInt(req.query.limit as string) || 10;
+
+      const result = await LeaveService.getAllRequests(page, limit);
+      res
+        .status(200)
+        .json({ status: "success", data: result.data, meta: result.meta });
     } catch (error: any) {
       res.status(400).json({ error: error.message });
     }

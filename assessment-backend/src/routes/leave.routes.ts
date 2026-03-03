@@ -19,6 +19,19 @@ const router = Router();
  *     tags: [Leave]
  *     security:
  *       - bearerAuth: []
+ *     parameters:
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: integer
+ *           default: 1
+ *         description: Page number
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *           default: 10
+ *         description: Number of items per page
  *     responses:
  *       200:
  *         description: List of user leaves
@@ -32,6 +45,13 @@ const router = Router();
  *                   type: array
  *                   items:
  *                     $ref: '#/components/schemas/LeaveRequest'
+ *                 meta:
+ *                   type: object
+ *                   properties:
+ *                     totalItems: { type: integer, example: 50 }
+ *                     totalPages: { type: integer, example: 5 }
+ *                     currentPage: { type: integer, example: 1 }
+ *                     limit: { type: integer, example: 10 }
  *       401:
  *         $ref: '#/components/responses/Unauthorized'
  */
@@ -45,6 +65,19 @@ router.get("/my-requests", authenticate, LeaveController.getMyLeaves);
  *     tags: [Leave]
  *     security:
  *       - bearerAuth: []
+ *     parameters:
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: integer
+ *           default: 1
+ *         description: Page number
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *           default: 10
+ *         description: Number of items per page
  *     responses:
  *       200:
  *         description: Master list of all leaves
@@ -58,6 +91,13 @@ router.get("/my-requests", authenticate, LeaveController.getMyLeaves);
  *                   type: array
  *                   items:
  *                     $ref: '#/components/schemas/LeaveRequest'
+ *                 meta:
+ *                   type: object
+ *                   properties:
+ *                     totalItems: { type: integer, example: 50 }
+ *                     totalPages: { type: integer, example: 5 }
+ *                     currentPage: { type: integer, example: 1 }
+ *                     limit: { type: integer, example: 10 }
  *       403:
  *         description: Forbidden
  */

@@ -6,8 +6,12 @@ export class LeaveService {
   /**
    * Fetch all leave requests. Usually accessed by Principal/Admin.
    */
-  static async getAllRequests() {
-    return await LeaveRequest.findAll({
+  static async getAllRequests(page: number = 1, limit: number = 10) {
+    const offset = (page - 1) * limit;
+    const { count, rows } = await LeaveRequest.findAndCountAll({
+      limit,
+      offset,
+      distinct: true,
       include: [
         {
           model: User,
@@ -22,14 +26,32 @@ export class LeaveService {
       ],
       order: [["createdAt", "DESC"]],
     });
+
+    return {
+      data: rows,
+      meta: {
+        totalItems: count,
+        totalPages: Math.ceil(count / limit),
+        currentPage: page,
+        limit,
+      },
+    };
   }
 
   /**
    * Fetch leave requests belonging to a specific user.
    */
-  static async getUserRequests(userId: string) {
-    return await LeaveRequest.findAll({
+  static async getUserRequests(
+    userId: string,
+    page: number = 1,
+    limit: number = 10,
+  ) {
+    const offset = (page - 1) * limit;
+    const { count, rows } = await LeaveRequest.findAndCountAll({
       where: { userId },
+      limit,
+      offset,
+      distinct: true,
       include: [
         {
           model: User,
@@ -39,6 +61,16 @@ export class LeaveService {
       ],
       order: [["createdAt", "DESC"]],
     });
+
+    return {
+      data: rows,
+      meta: {
+        totalItems: count,
+        totalPages: Math.ceil(count / limit),
+        currentPage: page,
+        limit,
+      },
+    };
   }
 
   /**
