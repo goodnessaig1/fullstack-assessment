@@ -11,9 +11,9 @@ export function Profile() {
 
   return (
     <div className="max-w-4xl space-y-8">
-      <div className="flex justify-between items-center bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white p-6 rounded-xl shadow-sm border border-slate-200">
         <h1 className="text-2xl font-bold text-slate-800">My Profile</h1>
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-3 w-full sm:w-auto mt-2 sm:mt-0">
           {user.role === "principal" && (
             <button className="flex items-center gap-2 bg-[#1d5ac3] text-white px-4 py-2.5 rounded-lg font-semibold text-sm hover:bg-[#15469b] transition-all shadow-sm">
               <Plus size={18} />

@@ -3,7 +3,7 @@ import { BarChart3, TrendingUp, Target, Users } from "lucide-react";
 export function Performance() {
   return (
     <div className="max-w-6xl space-y-8 animate-in fade-in duration-300">
-      <div className="flex justify-between items-center bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white p-6 rounded-xl shadow-sm border border-slate-200">
         <div>
           <h1 className="text-2xl font-bold text-slate-800">
             Teacher Performance
