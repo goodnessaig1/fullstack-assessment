@@ -55,3 +55,21 @@ const startServer = async () => {
 };
 
 startServer();
+
+const SELF_URL = "https://backend-assessment-uprm.onrender.com/";
+
+setInterval(
+  async () => {
+    try {
+      const res = await fetch(SELF_URL);
+      if (res.ok) {
+        console.log("Keep-alive ping successful ✅");
+      } else {
+        console.error("Keep-alive ping failed ❌", res.statusText);
+      }
+    } catch (err) {
+      console.error("Keep-alive ping failed ❌");
+    }
+  },
+  5 * 60 * 1000,
+);

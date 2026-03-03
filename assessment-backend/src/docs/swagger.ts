@@ -16,7 +16,7 @@ const options: swaggerJsdoc.Options = {
         description: "Local Development Server",
       },
       {
-        url: "https://schoolcore-api.example.com",
+        url: "https://backend-assessment-uprm.onrender.com",
         description: "Production Server",
       },
     ],
