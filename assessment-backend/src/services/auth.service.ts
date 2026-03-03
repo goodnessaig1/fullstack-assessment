@@ -1,6 +1,10 @@
 import bcrypt from "bcryptjs";
 import { User } from "../models/User";
-import { RegisterInput, LoginInput } from "../validations/user.schema";
+import {
+  RegisterInput,
+  LoginInput,
+  ChangePasswordInput,
+} from "../validations/user.schema";
 import { generateToken } from "../utils/jwt";
 
 export class AuthService {
@@ -70,6 +74,24 @@ export class AuthService {
 
     await user.update(data);
     return this.excludePassword(user.toJSON());
+  }
+
+  static async changePassword(id: string, data: ChangePasswordInput) {
+    const user = await User.findByPk(id);
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    const isMatch = await bcrypt.compare(data.oldPassword, user.password);
+    if (!isMatch) {
+      throw new Error("Incorrect password");
+    }
+
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(data.newPassword, salt);
+
+    await user.update({ password: hashedPassword });
+    return { status: "success", message: "Password updated successfully" };
   }
 
   static excludePassword(user: any) {

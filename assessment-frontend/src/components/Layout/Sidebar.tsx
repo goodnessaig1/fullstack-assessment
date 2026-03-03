@@ -163,19 +163,30 @@ export function Sidebar() {
 
       {/* Profile Section at bottom */}
       <div className="px-4 py-4 w-full">
-        <div className="bg-white/10 rounded-xl p-[10px] flex items-center gap-3 hover:bg-white/15 cursor-pointer transition-colors border border-white/5 shadow-inner">
-          <div className="w-[34px] h-[34px] rounded-full bg-[#5a8cdf] flex items-center justify-center text-xs font-bold font-sans text-white border border-white/10 shadow-sm leading-none shrink-0">
-            AP
+        <Link to="/dashboard/profile" className="block">
+          <div className="bg-white/10 rounded-xl p-[10px] flex items-center gap-3 hover:bg-white/15 cursor-pointer transition-colors border border-white/5 shadow-inner">
+            {user?.profilePicture ? (
+              <img
+                src={user.profilePicture}
+                alt="Profile"
+                className="w-[34px] h-[34px] rounded-full object-cover shrink-0 border border-white/10"
+              />
+            ) : (
+              <div className="w-[34px] h-[34px] rounded-full bg-[#5a8cdf] flex items-center justify-center text-xs font-bold font-sans text-white border border-white/10 shadow-sm leading-none shrink-0">
+                {user?.firstName?.[0]}
+                {user?.lastName?.[0]}
+              </div>
+            )}
+            <div className="flex-1 min-w-0">
+              <p className="text-[13px] font-bold text-white truncate leading-tight tracking-wide">
+                {user?.firstName?.[0]}. {user?.lastName}
+              </p>
+              <p className="text-[11px] text-[#89a8de] font-medium truncate mt-[1px] capitalize">
+                {user?.role}
+              </p>
+            </div>
           </div>
-          <div className="flex-1 min-w-0">
-            <p className="text-[13px] font-bold text-white truncate leading-tight tracking-wide">
-              {user?.firstName[0]}. {user?.lastName}
-            </p>
-            <p className="text-[11px] text-[#89a8de] font-medium truncate mt-[1px]">
-              Head Teacher
-            </p>
-          </div>
-        </div>
+        </Link>
       </div>
     </div>
   );

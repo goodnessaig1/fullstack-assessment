@@ -5,6 +5,7 @@ import {
   registerSchema,
   loginSchema,
   updateUserSchema,
+  changePasswordSchema,
 } from "../validations/user.schema";
 import { authenticate } from "../middlewares/auth.middleware";
 import { upload } from "../middlewares/upload.middleware";
@@ -129,6 +130,39 @@ router.put(
   upload.single("profilePicture"),
   validate(updateUserSchema),
   AuthController.updateMe,
+);
+
+/**
+ * @swagger
+ * /api/auth/change-password:
+ *   put:
+ *     summary: Change user password
+ *     tags: [Auth]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/ChangePasswordInput'
+ *     responses:
+ *       200:
+ *         description: Password updated successfully
+ *       400:
+ *         $ref: '#/components/responses/BadRequest'
+ *       401:
+ *         $ref: '#/components/responses/Unauthorized'
+ *       404:
+ *         $ref: '#/components/responses/NotFound'
+ *       500:
+ *         $ref: '#/components/responses/InternalServerError'
+ */
+router.put(
+  "/change-password",
+  authenticate,
+  validate(changePasswordSchema),
+  AuthController.changePassword,
 );
 
 export default router;

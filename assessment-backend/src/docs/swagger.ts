@@ -140,6 +140,23 @@ const options: swaggerJsdoc.Options = {
             },
           },
         },
+        ChangePasswordInput: {
+          type: "object",
+          required: ["oldPassword", "newPassword", "confirmPassword"],
+          properties: {
+            oldPassword: { type: "string", example: "oldpass123" },
+            newPassword: {
+              type: "string",
+              minLength: 6,
+              example: "newpass123",
+            },
+            confirmPassword: {
+              type: "string",
+              minLength: 6,
+              example: "newpass123",
+            },
+          },
+        },
         LoginResponse: {
           type: "object",
           properties: {
