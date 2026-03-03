@@ -23,19 +23,19 @@ export function Sidebar() {
       items: [
         {
           name: "Dashboard",
-          path: "/",
+          path: "/dashboard",
           icon: LayoutDashboard,
           iconSvg: "⬛️",
         },
         {
           name: "Staff Attendance",
-          path: "/staff-attendance",
+          path: "/dashboard/staff-attendance",
           icon: ClipboardList,
           iconSvg: "📋",
         },
         {
           name: "Student Headcount",
-          path: "/student-headcount",
+          path: "/dashboard/student-headcount",
           icon: UsersRound,
           iconSvg: "👥",
         },
@@ -46,20 +46,20 @@ export function Sidebar() {
       items: [
         {
           name: "Assets",
-          path: "/assets",
+          path: "/dashboard/assets",
           icon: Package,
           badge: 3,
           iconSvg: "📦",
         },
         {
           name: "Funds (EdFMS)",
-          path: "/funds",
+          path: "/dashboard/funds",
           icon: CircleDollarSign,
           iconSvg: "💰",
         },
         {
           name: "Infrastructure",
-          path: "/infrastructure",
+          path: "/dashboard/infrastructure",
           icon: Building2,
           iconSvg: "📐",
         },
@@ -70,19 +70,19 @@ export function Sidebar() {
       items: [
         {
           name: "Qualifications",
-          path: "/qualifications",
+          path: "/dashboard/qualifications",
           icon: GraduationCap,
           iconSvg: "🎓",
         },
         {
           name: "Performance",
-          path: "/performance",
+          path: "/dashboard/performance",
           icon: BarChart3,
           iconSvg: "📊",
         },
         {
           name: "Leave Requests",
-          path: "/leave-requests",
+          path: "/dashboard/leave-requests",
           icon: CalendarDays,
           iconSvg: "🗓️",
           badge: 2,
@@ -93,7 +93,6 @@ export function Sidebar() {
 
   return (
     <div className="w-64 bg-[var(--bg-sidebar)] text-white flex flex-col h-full font-sans tracking-wide">
-      {/* Brand Section */}
       <div className="pt-8 pb-5 px-6">
         <h1 className="text-2xl font-serif font-extrabold tracking-tight text-white mb-2 shadow-sm">
           School Core
@@ -161,7 +160,6 @@ export function Sidebar() {
         ))}
       </nav>
 
-      {/* Profile Section at bottom */}
       <div className="px-4 py-4 w-full">
         <Link to="/dashboard/profile" className="block">
           <div className="bg-white/10 rounded-xl p-[10px] flex items-center gap-3 hover:bg-white/15 cursor-pointer transition-colors border border-white/5 shadow-inner">

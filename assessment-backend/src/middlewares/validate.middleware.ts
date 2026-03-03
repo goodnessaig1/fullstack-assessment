@@ -19,8 +19,12 @@ export const validate =
     } catch (error: any) {
       if (error instanceof ZodError) {
         const zodError = error as any;
-        const formattedErrors = zodError.errors
-          .map((err: any) => `${err.path.join(".")}: ${err.message}`)
+        const issues = zodError.issues || zodError.errors || [];
+        const formattedErrors = issues
+          .map((err: any) => {
+            const path = err.path ? err.path.join(".") : "field";
+            return `${path}: ${err.message}`;
+          })
           .join(", ");
         res.status(400).json({ error: formattedErrors });
       } else {

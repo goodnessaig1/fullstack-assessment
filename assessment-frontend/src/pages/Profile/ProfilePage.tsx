@@ -11,7 +11,6 @@ export function Profile() {
 
   return (
     <div className="max-w-4xl space-y-8">
-      {/* Page Header */}
       <div className="flex justify-between items-center bg-white p-6 rounded-xl shadow-sm border border-slate-200">
         <h1 className="text-2xl font-bold text-slate-800">My Profile</h1>
         <div className="flex items-center gap-3">

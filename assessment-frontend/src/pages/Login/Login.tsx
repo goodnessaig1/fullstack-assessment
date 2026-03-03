@@ -31,9 +31,10 @@ export const Login = () => {
         } else {
           setGlobalError(response.data.error || "Login failed");
         }
-      } catch (error: any) {
+      } catch (error: unknown) {
+        const err = error as { response?: { data?: { error?: string } } };
         const message =
-          error.response?.data?.error || "Server error. Please try again.";
+          err.response?.data?.error || "Server error. Please try again.";
         if (message.includes("Incorrect password")) {
           setFieldError("password", message);
         } else if (message.includes("Account does not exist")) {

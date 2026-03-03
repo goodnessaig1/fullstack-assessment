@@ -170,6 +170,84 @@ const options: swaggerJsdoc.Options = {
             },
           },
         },
+        LeaveRequest: {
+          type: "object",
+          properties: {
+            id: { type: "string", description: "UUID Primary Key" },
+            userId: { type: "string" },
+            leaveType: {
+              type: "string",
+              enum: [
+                "sick",
+                "annual",
+                "maternity",
+                "paternity",
+                "unpaid",
+                "other",
+              ],
+            },
+            startDate: { type: "string", format: "date" },
+            endDate: { type: "string", format: "date" },
+            reason: { type: "string" },
+            status: {
+              type: "string",
+              enum: ["pending", "approved", "declined"],
+            },
+            reviewedByUserId: { type: "string", nullable: true },
+            reviewReason: { type: "string", nullable: true },
+            reviewedAt: { type: "string", format: "date-time", nullable: true },
+            createdAt: { type: "string", format: "date-time" },
+            updatedAt: { type: "string", format: "date-time" },
+          },
+        },
+        CreateLeaveInput: {
+          type: "object",
+          required: ["leaveType", "startDate", "endDate", "reason"],
+          properties: {
+            leaveType: {
+              type: "string",
+              enum: [
+                "sick",
+                "annual",
+                "maternity",
+                "paternity",
+                "unpaid",
+                "other",
+              ],
+              example: "annual",
+            },
+            startDate: {
+              type: "string",
+              format: "date",
+              example: "2024-05-10",
+            },
+            endDate: {
+              type: "string",
+              format: "date",
+              example: "2024-05-15",
+            },
+            reason: {
+              type: "string",
+              example: "Taking family vacation",
+            },
+          },
+        },
+        RespondLeaveInput: {
+          type: "object",
+          required: ["status"],
+          properties: {
+            status: {
+              type: "string",
+              enum: ["approved", "declined"],
+              example: "approved",
+            },
+            reviewReason: {
+              type: "string",
+              description: "Required only when declining",
+              example: "Not enough staff coverage this week",
+            },
+          },
+        },
       },
       securitySchemes: {
         bearerAuth: {

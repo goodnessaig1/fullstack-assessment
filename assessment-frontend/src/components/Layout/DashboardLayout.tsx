@@ -50,7 +50,6 @@ export function DashboardLayout() {
 
   return (
     <div className="flex h-screen bg-[var(--bg-main)] overflow-hidden font-sans">
-      {/* Desktop Sidebar */}
       <div className="hidden md:flex md:flex-shrink-0 shadow-xl z-20">
         <Sidebar />
       </div>

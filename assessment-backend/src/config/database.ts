@@ -3,7 +3,6 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-// We default to a local configuration if DATABASE_URL is not provided
 const sequelize = process.env.DATABASE_URL
   ? new Sequelize(process.env.DATABASE_URL, {
       dialect: "postgres",
@@ -11,13 +10,13 @@ const sequelize = process.env.DATABASE_URL
       dialectOptions: {
         ssl: {
           require: true,
-          rejectUnauthorized: false, // Often needed for Supabase/Neon
+          rejectUnauthorized: false,
         },
       },
     })
   : new Sequelize({
       dialect: "sqlite",
-      storage: "./database.sqlite", // Local fallback for development testing
+      storage: "./database.sqlite",
       logging: false,
     });
 

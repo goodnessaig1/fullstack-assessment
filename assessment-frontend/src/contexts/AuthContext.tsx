@@ -54,7 +54,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       setUser(response.data);
     } catch (error) {
       console.error("Failed to fetch user profiles:", error);
-      // Remove token if invalid wrapper
       localStorage.removeItem("token");
       setToken(null);
       setUser(null);

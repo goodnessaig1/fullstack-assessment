@@ -23,7 +23,6 @@ export function Dashboard() {
     greeting = "Good Afternoon";
   }
 
-  // Capitalize helpers
   const capitalize = (str: string) =>
     str ? str.charAt(0).toUpperCase() + str.slice(1).toLowerCase() : "";
 

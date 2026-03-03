@@ -31,7 +31,7 @@ User.init(
     id: {
       type: DataTypes.STRING(12),
       primaryKey: true,
-      defaultValue: () => randomBytes(6).toString("hex"), // generates 12 chars hex
+      defaultValue: () => randomBytes(6).toString("hex"),
     },
     title: {
       type: DataTypes.ENUM(...Object.values(UserTitle)),
