@@ -90,8 +90,8 @@ const options: swaggerJsdoc.Options = {
             },
             profilePicture: {
               type: "string",
-              example: "https://example.com/pic.jpg",
-              nullable: true,
+              format: "binary",
+              description: "Optional profile picture file",
             },
             email: { type: "string", example: "john.doe@example.com" },
             password: { type: "string", example: "securepassword123" },
@@ -110,6 +110,34 @@ const options: swaggerJsdoc.Options = {
           properties: {
             user: { $ref: "#/components/schemas/User" },
             token: { type: "string", description: "JWT Access Token" },
+          },
+        },
+        UpdateUserInput: {
+          type: "object",
+          properties: {
+            title: {
+              type: "string",
+              enum: ["mr", "mrs", "miss", "ms"],
+            },
+            firstName: { type: "string" },
+            lastName: { type: "string" },
+            gender: {
+              type: "string",
+              enum: ["male", "female"],
+            },
+            dateOfBirth: {
+              type: "string",
+              format: "date",
+            },
+            role: {
+              type: "string",
+              enum: ["principal", "teacher", "staff", "student"],
+            },
+            profilePicture: {
+              type: "string",
+              format: "binary",
+              description: "Optional profile picture file",
+            },
           },
         },
         LoginResponse: {

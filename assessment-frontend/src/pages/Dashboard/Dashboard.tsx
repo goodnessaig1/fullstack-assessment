@@ -2,8 +2,11 @@ import { ArrowUp } from "lucide-react";
 import { StatCard } from "../../components/ui/StatCard";
 import { ProgressBar } from "../../components/ui/ProgressBar";
 import Alerts from "./Alerts";
+import { useAuth } from "../../contexts/AuthContext";
 
 export function Dashboard() {
+  const { user } = useAuth();
+
   const today = new Date();
   const formattedDate = today.toLocaleDateString("en-GB", {
     weekday: "long",
@@ -20,11 +23,19 @@ export function Dashboard() {
     greeting = "Good Afternoon";
   }
 
+  // Capitalize helpers
+  const capitalize = (str: string) =>
+    str ? str.charAt(0).toUpperCase() + str.slice(1).toLowerCase() : "";
+
+  const formattedName = user
+    ? `${capitalize(user.title)}. ${capitalize(user.lastName)}`
+    : "Guest";
+
   return (
     <div className="max-w-7xl mx-auto space-y-6">
       <div>
         <h1 className="text-3xl font-bold text-gray-900 tracking-tight flex items-center gap-2">
-          {greeting}, Mrs. Peterside <span className="text-3xl">👋</span>
+          {greeting}, {formattedName} <span className="text-3xl">👋</span>
         </h1>
         <p className="text-sm font-medium text-[#889db1] mt-1 flex items-center">
           {formattedDate}

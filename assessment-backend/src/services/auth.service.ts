@@ -33,12 +33,12 @@ export class AuthService {
     });
 
     if (!user) {
-      throw new Error("Invalid email or password");
+      throw new Error("Account does not exist");
     }
 
     const isMatch = await bcrypt.compare(data.password, user.password);
     if (!isMatch) {
-      throw new Error("Invalid email or password");
+      throw new Error("Incorrect password");
     }
 
     await User.update({ lastLogin: new Date() }, { where: { id: user.id } });
@@ -59,6 +59,16 @@ export class AuthService {
     if (!user) {
       throw new Error("User not found");
     }
+    return this.excludePassword(user.toJSON());
+  }
+
+  static async updateMe(id: string, data: any) {
+    const user = await User.findByPk(id);
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    await user.update(data);
     return this.excludePassword(user.toJSON());
   }
 

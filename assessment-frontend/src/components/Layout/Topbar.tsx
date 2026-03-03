@@ -43,8 +43,8 @@ export function Topbar({ title, subtitle }: TopbarProps) {
         </div>
 
         <button className="flex-shrink-0 relative w-9 h-9 rounded-md text-[#e07a3c] flex items-center justify-center border border-[#CBE0F3] bg-[var(--bg-input)] transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#e07a3c]">
-          <Bell className="w-5 h-5 fill-current" />
-          <span className="absolute top-2 right-2.5 w-2 h-2 bg-red-500 border-2 border-[#fdf2e9] rounded-full"></span>
+          <Bell className="w-5 h-5 text-[#d8b73f] fill-current" />
+          <span className="absolute top-1 right-1.5 w-2 h-2 bg-red-500 border-2 border-[#fdf2e9] rounded-full"></span>
         </button>
 
         <button className="flex items-center px-4 py-2 bg-[var(--bg-btn-primary)] text-white text-sm font-semibold rounded-md shadow-sm hover:brightness-90 transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--bg-btn-primary)]">

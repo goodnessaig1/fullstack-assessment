@@ -1,8 +1,13 @@
 import { Router } from "express";
 import { AuthController } from "../controllers/auth.controller";
 import { validate } from "../middlewares/validate.middleware";
-import { registerSchema, loginSchema } from "../validations/user.schema";
+import {
+  registerSchema,
+  loginSchema,
+  updateUserSchema,
+} from "../validations/user.schema";
 import { authenticate } from "../middlewares/auth.middleware";
+import { upload } from "../middlewares/upload.middleware";
 
 const router = Router();
 
@@ -15,7 +20,7 @@ const router = Router();
  *     requestBody:
  *       required: true
  *       content:
- *         application/json:
+ *         multipart/form-data:
  *           schema:
  *             $ref: '#/components/schemas/RegisterInput'
  *     responses:
@@ -30,7 +35,12 @@ const router = Router();
  *       500:
  *         $ref: '#/components/responses/InternalServerError'
  */
-router.post("/register", validate(registerSchema), AuthController.register);
+router.post(
+  "/register",
+  upload.single("profilePicture"),
+  validate(registerSchema),
+  AuthController.register,
+);
 
 /**
  * @swagger
@@ -82,5 +92,43 @@ router.post("/login", validate(loginSchema), AuthController.login);
  */
 
 router.get("/me", authenticate, AuthController.getMe);
+
+/**
+ * @swagger
+ * /api/auth/me:
+ *   put:
+ *     summary: Update current logged-in user details
+ *     tags: [Auth]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: false
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             $ref: '#/components/schemas/UpdateUserInput'
+ *     responses:
+ *       200:
+ *         description: Current user profile updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/User'
+ *       400:
+ *         $ref: '#/components/responses/BadRequest'
+ *       401:
+ *         $ref: '#/components/responses/Unauthorized'
+ *       404:
+ *         $ref: '#/components/responses/NotFound'
+ *       500:
+ *         $ref: '#/components/responses/InternalServerError'
+ */
+router.put(
+  "/me",
+  authenticate,
+  upload.single("profilePicture"),
+  validate(updateUserSchema),
+  AuthController.updateMe,
+);
 
 export default router;

@@ -10,7 +10,7 @@ export const registerSchema = z.object({
     message: "Invalid date format",
   }),
   role: z.nativeEnum(UserRole),
-  profilePicture: z.string().url().optional().nullable(),
+  profilePicture: z.string().optional().nullable(),
   email: z.string().email("Invalid email address"),
   password: z.string().min(6, "Password must be at least 6 characters"),
 });
@@ -20,5 +20,27 @@ export const loginSchema = z.object({
   password: z.string().min(1, "Password is required"),
 });
 
+export const updateUserSchema = z.object({
+  title: z.nativeEnum(UserTitle).optional(),
+  firstName: z
+    .string()
+    .min(2, "firstName must be at least 2 characters")
+    .optional(),
+  lastName: z
+    .string()
+    .min(2, "lastName must be at least 2 characters")
+    .optional(),
+  gender: z.nativeEnum(UserGender).optional(),
+  dateOfBirth: z
+    .string()
+    .refine((val) => !isNaN(Date.parse(val)), {
+      message: "Invalid date format",
+    })
+    .optional(),
+  role: z.nativeEnum(UserRole).optional(),
+  profilePicture: z.string().optional().nullable(),
+});
+
 export type RegisterInput = z.infer<typeof registerSchema>;
 export type LoginInput = z.infer<typeof loginSchema>;
+export type UpdateUserInput = z.infer<typeof updateUserSchema>;

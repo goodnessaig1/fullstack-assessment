@@ -11,9 +11,11 @@ import {
   BarChart3,
   CalendarDays,
 } from "lucide-react";
+import { useAuth } from "../../contexts/AuthContext";
 
 export function Sidebar() {
   const location = useLocation();
+  const { user } = useAuth();
 
   const navGroups = [
     {
@@ -98,7 +100,7 @@ export function Sidebar() {
         </h1>
         <div className="inline-flex items-center bg-white/15 px-[10px] py-[3px] rounded-full text-[10px] font-bold tracking-[0.05em] text-[#d6e5ff]">
           Tier 2 <span className="opacity-40 mx-1.5 text-white">•</span>{" "}
-          Principal
+          <span className="capitalize">{user?.role}</span>
         </div>
       </div>
 
@@ -167,7 +169,7 @@ export function Sidebar() {
           </div>
           <div className="flex-1 min-w-0">
             <p className="text-[13px] font-bold text-white truncate leading-tight tracking-wide">
-              A. Peterside
+              {user?.firstName[0]}. {user?.lastName}
             </p>
             <p className="text-[11px] text-[#89a8de] font-medium truncate mt-[1px]">
               Head Teacher
